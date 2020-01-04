@@ -171,9 +171,12 @@ is not determined""", url_id)
                     escaped_url = quote(canonical_url, safe='/:?=&')
                     if canonical_url is not None and canonical_url != "":
                         try:
+                            # mercury_parse = subprocess.check_output([
+                            #     self.node_path, self.mercury_parser_installation_path,
+                            #     escaped_url])
                             mercury_parse = subprocess.check_output([
-                                self.node_path, self.mercury_parser_installation_path,
-                                escaped_url])
+                                'mercury-parser', escaped_url
+                                ])
                             mercury_parse = demjson.decode(mercury_parse.decode('utf-8'))
                             if 'error' not in mercury_parse:
                                 data['content'] = lxml.html.fromstring(

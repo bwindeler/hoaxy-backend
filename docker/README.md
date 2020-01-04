@@ -1,7 +1,6 @@
 # Build docker image
-To build the image, we use docker-compose utility. Make sure you have docker-compose installed. 
+To build the image, we use docker-compose utility. Make sure you have docker-compose installed. Run from the parent directory `hoaxy-backend`
 ```ssh
-cd docker
 docker-compose up
 ```
 
@@ -17,7 +16,7 @@ d7ce7f3e37df        adminer                                   "entrypoint.sh doc
 
 Then to connect to hoaxy-backend docker, run
 ```ssh
-docker run -ti  hoaxy-backend:miniconda2-jdk8-alpine3.9 bash
+docker exec -it docker_hoaxy-backend_1 bash
 ```
 
 Once you are inside docker, you can run

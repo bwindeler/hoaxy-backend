@@ -51,6 +51,7 @@ RUN conda install -y \
         networkx \
         pandas \
         psycopg2 \
+        python=3.7.5 \
         python-dateutil \
         pytz \
         pyyaml \
@@ -102,10 +103,14 @@ ENV HOAXY_VCS_BRANCH=${HOAXY_VCS_BRANCH:-"master"} \
     HOAXY_VCS_DEPTH=${HOAXY_VCS_DEPTH:-"1"} \
     HOAXY_VCS_REMOTE=${HOAXY_VCS_REMOTE:-"https://github.com/IUNetSci/hoaxy-backend.git"}
 
-RUN apk add --no-cache --no-progress yaml-dev postgresql-dev \
-    && git clone --recursive --depth=${HOAXY_VCS_DEPTH} --branch ${HOAXY_VCS_BRANCH} ${HOAXY_VCS_REMOTE} \
-    && cd hoaxy-backend 
+RUN apk add --no-cache --no-progress yaml-dev postgresql-dev
+    # && git clone --recursive --depth=${HOAXY_VCS_DEPTH} --branch ${HOAXY_VCS_BRANCH} ${HOAXY_VCS_REMOTE} \
+    # && cd hoaxy-backend 
 #    && conda install -y psycopg2
+
+RUN mkdir hoaxy-backend
+
+ADD . hoaxy-backend
 
 RUN cd hoaxy-backend \
     && pip install --upgrade --force-reinstall jieba3k==0.35.1 \
@@ -116,8 +121,11 @@ RUN cd hoaxy-backend \
 
 ## Use entrypoint script to switch case and pass custom/default params to hoaxy
 WORKDIR /opt
-COPY entrypoint.sh .
+COPY docker/entrypoint.sh .
 RUN chmod +x /opt/entrypoint.sh
+
+RUN apk add --update nodejs npm
+RUN npm install -g mercury-parser
 
 ## If Dockerfile at root dir of vcs repo
 # COPY . . 
