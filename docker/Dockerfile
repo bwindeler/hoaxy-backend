@@ -125,7 +125,7 @@ COPY docker/entrypoint.sh .
 RUN chmod +x /opt/entrypoint.sh
 
 RUN apk add --update nodejs npm
-RUN npm install -g mercury-parser
+RUN npm -g install @postlight/mercury-parser
 
 ## If Dockerfile at root dir of vcs repo
 # COPY . . 
